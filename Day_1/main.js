@@ -2238,7 +2238,7 @@ const puzzleText = `5229
 10283
 `;
 
-const arrSplit = puzzleText.split("\n");
+let arrSplit = puzzleText.split("\n");
 
 let elvesCaloriesSum = [];
 let sum = 0;
@@ -2252,14 +2252,29 @@ arrSplit.forEach((element) => {
   }
 });
 
-console.log(elvesCaloriesSum);
+// console.log(elvesCaloriesSum);
 
 const maxCalories = Math.max(...elvesCaloriesSum);
-console.log("maxCalories: " + maxCalories);
+// console.log("maxCalories: " + maxCalories);
 
 const indexOfElve = elvesCaloriesSum.indexOf(maxCalories);
 console.log(
   `Elf ${
     indexOfElve + 1
-  } is carrying the most calories, the total calories is ${maxCalories}`
+  } is carrying the most calories, the total of his calories is ${maxCalories}`
 );
+
+let maxCaloriesOfGroup = [];
+for (let i = 0; i < 3; i++) {
+  let max = Math.max(...elvesCaloriesSum);
+  maxCaloriesOfGroup.push(max);
+  let indexOfMax = elvesCaloriesSum.indexOf(max);
+  elvesCaloriesSum.splice(indexOfMax, 1);
+}
+// console.log(maxCaloriesOfGroup);
+
+let sumOfCaloriesInGroup = 0;
+maxCaloriesOfGroup.forEach((e) => {
+  sumOfCaloriesInGroup += e;
+});
+console.log(`Top three Elves carry in total ${sumOfCaloriesInGroup} calories`);
