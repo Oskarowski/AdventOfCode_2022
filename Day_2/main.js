@@ -2557,6 +2557,82 @@ pointsArr.forEach((e) => {
 // console.log(pointsArr);
 
 console.log(
-  "If everything goes exactly according to strategy guide, total score will be: " +
+  " 'PART 1:' If everything goes exactly according to strategy guide, total score will be: " +
     sumOfPoints
+);
+
+//------------------------------------------------------------------------------
+
+function getWhatToPlay(opponent, outcome) {
+  //   console.log("outcome: " + outcome);
+  switch (outcome) {
+    case "Z":
+      switch (opponent) {
+        case "A":
+          return "B";
+        case "B":
+          return "C";
+        case "C":
+          return "A";
+      }
+    case "X":
+      switch (opponent) {
+        case "A":
+          return "C";
+        case "B":
+          return "A";
+        case "C":
+          return "B";
+      }
+    case "Y":
+      switch (opponent) {
+        case "A":
+          return "A";
+        case "B":
+          return "B";
+        case "C":
+          return "C";
+      }
+  }
+}
+
+// let whatToPlayForEachRound = [];
+let pointsForEachRound = [];
+forEachRoundStrat.forEach((round) => {
+  let opponent = round[0];
+  let neededOutcome = round[1];
+  let whatToPlay = getWhatToPlay(opponent, neededOutcome);
+  let points = 0;
+
+  switch (neededOutcome) {
+    case "Z":
+      points += 6;
+      break;
+    case "Y":
+      points += 3;
+      break;
+  }
+
+  switch (whatToPlay) {
+    case "A":
+      points += 1;
+      break;
+    case "B":
+      points += 2;
+      break;
+    case "C":
+      points += 3;
+      break;
+  }
+  pointsForEachRound.push(points);
+});
+
+let sumOfAllPointForEachRound = 0;
+pointsForEachRound.forEach((p) => {
+  sumOfAllPointForEachRound += p;
+});
+
+console.log(
+  " 'PART 2:' If everything goes exactly according to your strategy guide, total score will be: " +
+    sumOfAllPointForEachRound
 );
