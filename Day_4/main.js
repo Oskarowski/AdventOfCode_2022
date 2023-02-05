@@ -1,9 +1,15 @@
-const puzzleInput = `1-2,3-5
-1-1,1-5
-5-10,10-20
-3-3,3-3
-2-6,4-6
-2-16,4-8`;
+const puzzleInput = `2-4,6-8
+2-3,4-5
+5-7,7-9
+2-8,3-7
+6-6,4-6
+2-6,4-8
+2-4,6-8
+2-3,4-5
+5-7,7-9
+2-8,3-7
+6-6,4-6
+2-6,4-8`;
 
 // .replace(/[^\d]/g, "")
 
@@ -37,6 +43,7 @@ function checkIfInRange(min, max, rangeMin, rangeMax) {
 }
 
 function inRange(value, min, max) {
+  //   console.log(`\n${value} >= ${min} && ${value} <= ${max}`);
   if (value >= min && value <= max) return true;
   else return false;
 }
@@ -44,33 +51,21 @@ function inRange(value, min, max) {
 const pairsContainTheOther = [];
 let rangeFullyContainTheOther = 0;
 splitOnPairOfAssignments.forEach((elfPair) => {
-  console.log(elfPair);
+  //   console.log(elfPair);
   let firstElfSectionStart = elfPair[0];
-  //   console.log(firstElfSectionStart);
   let firstElfSectionEnd = elfPair[1];
-  //   console.log(firstElfSectionEnd);
   let secondElfSectionStart = elfPair[2];
-  //   console.log(secondElfSectionStart);
   let secondElfSectionEnd = elfPair[3];
-  //   console.log(secondElfSectionEnd);
 
   if (
-    checkIfInRange(
-      firstElfSectionStart,
-      firstElfSectionEnd,
-      secondElfSectionStart,
-      secondElfSectionEnd
-    )
+    inRange(firstElfSectionStart, secondElfSectionStart, secondElfSectionEnd) &&
+    inRange(firstElfSectionEnd, secondElfSectionStart, secondElfSectionEnd)
   ) {
     rangeFullyContainTheOther++;
     pairsContainTheOther.push(elfPair);
   } else if (
-    checkIfInRange(
-      secondElfSectionStart,
-      secondElfSectionEnd,
-      firstElfSectionStart,
-      firstElfSectionEnd
-    )
+    inRange(secondElfSectionStart, firstElfSectionStart, firstElfSectionEnd) &&
+    inRange(secondElfSectionEnd, firstElfSectionStart, firstElfSectionEnd)
   ) {
     rangeFullyContainTheOther++;
     pairsContainTheOther.push(elfPair);
@@ -80,4 +75,4 @@ splitOnPairOfAssignments.forEach((elfPair) => {
 console.log(
   `\nIn '${rangeFullyContainTheOther}' assignment pairs one range fully contain the other`
 );
-console.log(pairsContainTheOther);
+// console.log(pairsContainTheOther);
