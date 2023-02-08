@@ -31,7 +31,7 @@ for (let loop = stacksInput.length - 2; loop >= 0; loop--) {
     strLoop += 4;
   }
 }
-console.log(stacks);
+// const stacksCopy = JSON.parse(JSON.stringify(stacks));
 
 for (let move of instructions) {
   const splitOnSpace = move.split(" ");
@@ -43,12 +43,11 @@ for (let move of instructions) {
     const crateToMove = stacks[orgin].pop();
     stacks[destination].push(crateToMove);
   }
-  //   stacks[destination].push(...cratesToMove);
 }
-// console.log(stacks);
 
 let topStacksView = "";
 for (let stack of stacks) {
   topStacksView += stack[stack.length - 1];
 }
-console.log(topStacksView);
+
+console.log(`PART 1: CrateMover 9000: ${topStacksView}`);
