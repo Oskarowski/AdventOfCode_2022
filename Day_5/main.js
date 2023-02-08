@@ -1,9 +1,6 @@
-const stacksOfCrates = [["Z", "N"], ["M", "C", "D"], ["P"]];
+const stacksOfCrates = [];
 
-const craneInstructionsInput = `move 1 from 2 to 1
-move 3 from 1 to 3
-move 2 from 2 to 1
-move 1 from 1 to 2`;
+const craneInstructionsInput = ``;
 
 const craneInstructionsSplit = craneInstructionsInput.split("\n");
 const operationsInNumbers = [];
@@ -35,10 +32,12 @@ operationsInNumbers.forEach((instructions) => {
 
 // console.log(stacksOfCrates);
 
-const topsOfStacks = [];
+let topsOfStacks = "";
 stacksOfCrates.forEach((stack) => {
   const top = stack[stack.length - 1];
-  topsOfStacks.push(top);
+  // topsOfStacks.push(top);
+  topsOfStacks += top;
 });
 
 console.log(topsOfStacks);
+console.log(stacksOfCrates.length);
