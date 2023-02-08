@@ -39,10 +39,12 @@ for (let move of instructions) {
   const orgin = +splitOnSpace[3] - 1;
   const destination = +splitOnSpace[5] - 1;
 
+  const createsToMove = [];
   for (let i = 0; i < repetitions; i++) {
-    const crateToMove = stacks[orgin].pop();
-    stacks[destination].push(crateToMove);
+    createsToMove.push(stacks[orgin].pop());
   }
+  //   stacks[destination].push(...createsToMove); // FOR PART 1
+  stacks[destination].push(...createsToMove.reverse()); // FOR PART 2
 }
 
 let topStacksView = "";
@@ -50,4 +52,4 @@ for (let stack of stacks) {
   topStacksView += stack[stack.length - 1];
 }
 
-console.log(`PART 1: CrateMover 9000: ${topStacksView}`);
+console.log(`topStacksView: ${topStacksView}`);
