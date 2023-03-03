@@ -32,9 +32,10 @@ puzzleInputSplit.forEach((commendLine, whichLine) => {
   commendLine = commendLine.slice(3);
 
   var commendLineSplit = commendLine.split(" ");
+
   const commendLineArray = [];
 
-  for (var i = 0; i < (commendLineSplit.length - 1) / 2; i += 2) {
+  for (var i = 0; i < commendLineSplit.length - 1; i += 2) {
     var temporaryArray = [];
     if (commendLineSplit[i] !== "") {
       temporaryArray.push(commendLineSplit[i]);
