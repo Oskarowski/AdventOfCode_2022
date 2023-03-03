@@ -10,8 +10,6 @@ tree = { "/": null };
 
 var direcotoryPath = ["/"];
 
-console.log("\n");
-
 class Directory {
   constructor(dirName) {
     this.dirName = dirName;
@@ -50,10 +48,10 @@ puzzleInputSplit.forEach((commendLine, whichLine) => {
 
   switch (commend) {
     case "ls": {
-      console.log("commend: ls");
+      // console.log("commend: ls");
       var currentDirectory = direcotoryPath.slice(-1);
-      console.log("currentDirectory:", currentDirectory);
-      console.log("commendLineArray:", commendLineArray);
+      // console.log("currentDirectory:", currentDirectory);
+      // console.log("commendLineArray:", commendLineArray);
       if (
         tree[currentDirectory] === undefined ||
         tree[currentDirectory] === null
@@ -61,7 +59,7 @@ puzzleInputSplit.forEach((commendLine, whichLine) => {
         tree[currentDirectory] = [];
       }
       commendLineArray.forEach((data) => {
-        console.log("data:", data);
+        // console.log("data:", data);
         if (data[0] === "dir") {
           const object = new Directory(data[1]);
           tree[currentDirectory].push(object);
@@ -71,11 +69,11 @@ puzzleInputSplit.forEach((commendLine, whichLine) => {
         }
       });
 
-      console.log("tree[direcotoryPath", tree[currentDirectory]);
+      // console.log("tree[direcotoryPath", tree[currentDirectory]);
       break;
     }
     case "cd": {
-      console.log("\ncommend: cd");
+      // console.log("\ncommend: cd");
       if (commendLineArray[0] == "..") {
         direcotoryPath.pop();
       } else if (commendLineArray[0] == "/") {
@@ -84,11 +82,47 @@ puzzleInputSplit.forEach((commendLine, whichLine) => {
         direcotoryPath.push(...commendLineArray);
       }
       var currentDirectory = direcotoryPath.slice(-1);
-      console.log("currentDirectory:", currentDirectory);
-      console.log("tree[direcotoryPath.slice(-1)]", tree[currentDirectory]);
+      // console.log("currentDirectory:", currentDirectory);
+      // console.log("tree[direcotoryPath.slice(-1)]", tree[currentDirectory]);
       break;
     }
   }
 });
 
-console.log("\n\n", tree);
+console.log("\n\n", tree, "\n\n");
+
+function getSizeOfDirectory(directory) {
+  var totalSizeOfDirectory = 0;
+  console.log("directory:", directory);
+  const currentDirectory = directory.dirName;
+  console.log("currentDirectory:", currentDirectory);
+  console.log("tree[currentDirectory]:", tree[currentDirectory]);
+
+  tree[currentDirectory].forEach((data) => {
+    if (data.dirName) {
+      totalSizeOfDirectory += parseInt(getSizeOfDirectory(data));
+    } else if (data.fileSize) {
+      totalSizeOfDirectory += parseInt(data.fileSize);
+    }
+  });
+  return totalSizeOfDirectory;
+}
+
+for (var directory in tree) {
+  console.log("We are in dir: ", directory);
+
+  var currentDirectorySize = 0;
+  console.log("tree[directory]", tree[directory]);
+
+  tree[directory].forEach((data) => {
+    console.log(data);
+    if (data.dirName) {
+      currentDirectorySize += parseInt(getSizeOfDirectory(data));
+    } else {
+      currentDirectorySize += parseInt(data.fileSize);
+    }
+  });
+  tree[directory].directorySize = currentDirectorySize;
+}
+
+console.log("\n\n", tree, "\n\n");
