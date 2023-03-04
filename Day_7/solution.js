@@ -89,18 +89,18 @@ puzzleInputSplit.forEach((commendLine, whichLine) => {
   }
 });
 
-console.log("\n\n", tree, "\n\n");
+// console.log("\n\n", tree, "\n\n");
 
-function getSizeOfDirectory(directory) {
+function setSizeOfDirectory(directory) {
   var totalSizeOfDirectory = 0;
-  console.log("directory:", directory);
+  // console.log("directory:", directory);
   const currentDirectory = directory.dirName;
-  console.log("currentDirectory:", currentDirectory);
-  console.log("tree[currentDirectory]:", tree[currentDirectory]);
+  // console.log("currentDirectory:", currentDirectory);
+  // console.log("tree[currentDirectory]:", tree[currentDirectory]);
 
   tree[currentDirectory].forEach((data) => {
     if (data.dirName) {
-      totalSizeOfDirectory += parseInt(getSizeOfDirectory(data));
+      totalSizeOfDirectory += parseInt(setSizeOfDirectory(data));
     } else if (data.fileSize) {
       totalSizeOfDirectory += parseInt(data.fileSize);
     }
@@ -109,15 +109,14 @@ function getSizeOfDirectory(directory) {
 }
 
 for (var directory in tree) {
-  console.log("We are in dir: ", directory);
+  // console.log("We are in dir: ", directory);
 
   var currentDirectorySize = 0;
-  console.log("tree[directory]", tree[directory]);
+  // console.log("tree[directory]", tree[directory]);
 
   tree[directory].forEach((data) => {
-    console.log(data);
     if (data.dirName) {
-      currentDirectorySize += parseInt(getSizeOfDirectory(data));
+      currentDirectorySize += parseInt(setSizeOfDirectory(data));
     } else {
       currentDirectorySize += parseInt(data.fileSize);
     }
@@ -126,3 +125,42 @@ for (var directory in tree) {
 }
 
 console.log("\n\n", tree, "\n\n");
+
+const maxTotalSize = 100000;
+const lessThenMaxArray = [];
+
+function ifSizeLessThenMax({ dirName }, size) {
+  // console.log("size", size, "dirName", dirName);
+  if (size < maxTotalSize) {
+    lessThenMaxArray.push(dirName);
+  }
+}
+
+function getSizeOfDirectory({ dirName }) {
+  tree[dirName].forEach((data) => {
+    if (data.dirName) {
+      ifSizeLessThenMax(data, tree[data.dirName].directorySize);
+      getSizeOfDirectory(data);
+    }
+  });
+}
+
+for (var directory in tree) {
+  tree[directory].forEach((data) => {
+    if (data.dirName) {
+      ifSizeLessThenMax(data, tree[data.dirName].directorySize);
+      getSizeOfDirectory(data);
+    }
+  });
+}
+// console.log("lessThenMaxArray: ", lessThenMaxArray);
+const finalDirArray = [...new Set(lessThenMaxArray)];
+
+const sumOfFinalDirArraySize = finalDirArray.reduce(
+  (accumulator, currentDir) => accumulator + tree[currentDir].directorySize,
+  0
+);
+
+console.log(
+  `The sum of the total sizes of those directories is: ${sumOfFinalDirArraySize}`
+);
