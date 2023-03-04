@@ -124,7 +124,7 @@ for (var directory in tree) {
   tree[directory].directorySize = currentDirectorySize;
 }
 
-console.log("\n\n", tree, "\n\n");
+// console.log("\n\n", tree, "\n\n");
 
 const maxTotalSize = 100000;
 const lessThenMaxArray = [];
