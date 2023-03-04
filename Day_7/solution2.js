@@ -111,8 +111,39 @@ function part1() {
   });
 
   console.log(
-    `The sum of the total sizes of those directories is ${sumSmallFolder}`
+    `\nThe sum of the total sizes of those directories is ${sumSmallFolder}`
   );
 }
 
 part1();
+
+function part2() {
+  const totalDiskSpace = 70000000;
+  const requiredSpace = 30000000;
+
+  const tree = createTree(puzzleLines);
+
+  const usedSpace = getSize(tree);
+  const availableSpace = totalDiskSpace - usedSpace;
+  if (availableSpace > requiredSpace) {
+    throw new Error("There is already enough space");
+  }
+  const minimumFolderSize = requiredSpace - availableSpace;
+
+  const candidates = [];
+
+  getSize(tree, (name, size) => {
+    if (size >= minimumFolderSize) {
+      candidates.push({
+        name,
+        size,
+      });
+    }
+  });
+
+  candidates.sort((a, b) => a.size - b.size);
+
+  console.log(`\nThe total size of that directory is: ${candidates[0].size}`);
+}
+
+part2();
