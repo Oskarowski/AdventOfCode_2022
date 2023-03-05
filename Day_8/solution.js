@@ -8,7 +8,7 @@ const puzzleInput = fs
   .split("\n");
 
 const puzzleGrid = fs
-  .readFileSync(`${__dirname}/puzzleInput`)
+  .readFileSync(`${__dirname}/testInput`)
   .toString()
   .replace(/\r/g, "")
   .trim()
@@ -60,6 +60,28 @@ function checkLineInDirection(
   }
 }
 
+function checkLineInDirectionPart2(lineY, columnX = 0, dy, dx, gridBoard) {
+  var homManyVisableTrees = 0;
+  var treeBeingChecked = gridBoard[lineY][columnX];
+  while (true) {
+    lineY += dy;
+    columnX += dx;
+    if (
+      lineY < 0 ||
+      lineY >= gridBoard.length ||
+      columnX < 0 ||
+      columnX >= gridBoard[lineY].length
+    ) {
+      break;
+    }
+    homManyVisableTrees++;
+    if (gridBoard[lineY][columnX] >= treeBeingChecked) {
+      break;
+    }
+  }
+  return homManyVisableTrees;
+}
+
 (function () {
   const gridBoard = puzzleGrid;
   //   console.log("gridBoard", gridBoard);
@@ -86,5 +108,39 @@ function checkLineInDirection(
   const areVisableSet = new Set(areVisable);
   console.log(
     `\nPART_1: ${areVisableSet.size} trees are visible from outside the grid\n`
+  );
+})();
+
+(function () {
+  const gridBoard = puzzleGrid;
+  var theHighestScenicScore = 0;
+  for (let rowY = 0; rowY < gridBoard.length; rowY++) {
+    for (let columnX = 0; columnX < gridBoard[rowY].length; columnX++) {
+      // *checkLineInDirectionPart2(lineY, columnX = 0, dy, dx, gridBoard)
+      const scenicScoreArr = [];
+      scenicScoreArr.push(
+        //down
+        checkLineInDirectionPart2(rowY, columnX, 1, 0, gridBoard)
+      );
+      scenicScoreArr.push(
+        //up
+        checkLineInDirectionPart2(rowY, columnX, -1, 0, gridBoard)
+      );
+      scenicScoreArr.push(
+        //right
+        checkLineInDirectionPart2(rowY, columnX, 0, 1, gridBoard)
+      );
+      scenicScoreArr.push(
+        //left
+        checkLineInDirectionPart2(rowY, columnX, 0, -1, gridBoard)
+      );
+      const scenicScore = scenicScoreArr.reduce((acc, score) => acc * score, 1);
+      if (scenicScore > theHighestScenicScore)
+        theHighestScenicScore = scenicScore;
+    }
+  }
+
+  console.log(
+    `PART_2: The highest scenic score possible for any tree is: ${theHighestScenicScore}\n`
   );
 })();
