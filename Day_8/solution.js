@@ -1,10 +1,19 @@
 const fs = require("fs");
 
 const puzzleInput = fs
-  .readFileSync(`${__dirname}/testInput`)
+  .readFileSync(`${__dirname}/puzzleInput`)
   .toString()
   .replace(/\r/g, "")
+  .trim()
   .split("\n");
+
+const puzzleGrid = fs
+  .readFileSync(`${__dirname}/puzzleInput`)
+  .toString()
+  .replace(/\r/g, "")
+  .trim()
+  .split("\n")
+  .map((line) => [...line].map(Number));
 
 function prepareTheGrid() {
   const gridBoard = [];
@@ -19,8 +28,8 @@ function prepareTheGrid() {
 }
 
 function addToAreVisable(lineY, columnX, areVisable) {
-  //   areVisable.push(`(${columnX},${lineY})`);
-  areVisable.push(parseInt(`${columnX}${lineY}`));
+  areVisable.push(`(${columnX},${lineY})`);
+  //areVisable.push(parseInt(`${columnX}${lineY}`)); ! WRONG OUTPUT AT THE END !
 }
 
 function checkLineInDirection(
@@ -52,8 +61,8 @@ function checkLineInDirection(
 }
 
 (function () {
-  const gridBoard = prepareTheGrid();
-  console.log("gridBoard", gridBoard);
+  const gridBoard = puzzleGrid;
+  //   console.log("gridBoard", gridBoard);
   const areVisable = [];
 
   //   checkLineInDirection(4, 2, -1, 0, gridBoard, areVisable);
@@ -76,6 +85,6 @@ function checkLineInDirection(
   }
   const areVisableSet = new Set(areVisable);
   console.log(
-    `${areVisableSet.size} trees are visible from outside the grid\n`
+    `\nPART_1: ${areVisableSet.size} trees are visible from outside the grid\n`
   );
 })();
