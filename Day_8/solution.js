@@ -8,7 +8,7 @@ const puzzleInput = fs
   .split("\n");
 
 const puzzleGrid = fs
-  .readFileSync(`${__dirname}/testInput`)
+  .readFileSync(`${__dirname}/puzzleInput`)
   .toString()
   .replace(/\r/g, "")
   .trim()
