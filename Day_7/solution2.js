@@ -1,3 +1,4 @@
+var start = new Date().getTime();
 const fs = require("fs");
 
 const puzzleLines = fs
@@ -147,3 +148,6 @@ function part2() {
 }
 
 part2();
+
+var end = new Date().getTime();
+console.log("T:", end - start);
