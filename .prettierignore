@@ -1,1 +1,7 @@
 /Day_5/input
+*input*
+tsconfig.json
+**/.git
+**/.svn
+**/.hg
+**/node_modules
