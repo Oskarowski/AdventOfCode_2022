@@ -1,2 +1,7 @@
 *brudnopis*
 /node_modules
+out
+dist
+tsconfig.json
+*.js.map
+*test*
